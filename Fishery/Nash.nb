@@ -1,0 +1,712 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     24203,        704]
+NotebookOptionsPosition[     20248,        632]
+NotebookOutlinePosition[     20648,        648]
+CellTagsIndexPosition[     20605,        645]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Computation of the Nash strategy", "Title",
+ CellChangeTimes->{{3.8771707975150557`*^9, 3.8771708065192223`*^9}, {
+  3.877175935177929*^9, 
+  3.8771759362451487`*^9}},ExpressionUUID->"f296424e-6e58-4ae5-aba4-\
+ef789bb30a77"],
+
+Cell[CellGroupData[{
+
+Cell["Define the G-function and the objective Q(m,u,x)", "Section",
+ CellChangeTimes->{{3.8682684642846603`*^9, 3.868268466508113*^9}, {
+  3.8771709591224546`*^9, 3.877170984118781*^9}, {3.8771719305117807`*^9, 
+  3.877171940342375*^9}},ExpressionUUID->"d14cc38c-f27c-4ce3-af13-\
+93150dd67d49"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"carry", "[", "v_", "]"}], ":=", 
+  RowBox[{"Kmax", "*", 
+   RowBox[{"Exp", "[", 
+    RowBox[{
+     RowBox[{"-", 
+      RowBox[{"v", "^", "2"}]}], "/", 
+     RowBox[{"sigmaK", "^", "2"}]}], "]"}]}]}], "\n", 
+ RowBox[{
+  RowBox[{"H", "[", 
+   RowBox[{"v_", ",", "m_"}], "]"}], ":=", 
+  RowBox[{"m", "*", 
+   RowBox[{"Exp", "[", 
+    RowBox[{
+     RowBox[{"-", 
+      RowBox[{"v", "^", "2"}]}], "/", 
+     RowBox[{"sigmaH", "^", "2"}]}], "]"}]}]}], "\n", 
+ RowBox[{
+  RowBox[{"G", "[", 
+   RowBox[{"v_", ",", "u_", ",", "x_", ",", "m_"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{"r", "*", 
+    RowBox[{"(", " ", 
+     RowBox[{"1", "-", 
+      RowBox[{"(", 
+       RowBox[{"x", "/", 
+        RowBox[{"carry", "[", "v", "]"}]}], ")"}]}], ")"}]}], "-", 
+   RowBox[{"H", "[", 
+    RowBox[{"v", ",", "m"}], "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Q", "[", 
+   RowBox[{"u_", ",", "m_", ",", "x_"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"H", "[", 
+     RowBox[{"u", ",", "m"}], "]"}], "*", "x"}], "-", 
+   RowBox[{"c", "*", "m"}]}]}]}], "Input",
+ CellChangeTimes->{{3.8771719457879744`*^9, 3.877171952404271*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"c95eae18-7000-4412-af23-dd9003a1d87f"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Define the ESS solutions x* and u* and insert into Q(m,u,x)", "Section",
+ CellChangeTimes->{{3.868268481916955*^9, 3.868268516609631*^9}, {
+   3.8771711750655317`*^9, 3.8771712023646593`*^9}, {3.877171874255218*^9, 
+   3.877171877989715*^9}, {3.877171934325492*^9, 3.8771719363040943`*^9}, {
+   3.877174181925888*^9, 3.877174183240972*^9}, 
+   3.877176046946039*^9},ExpressionUUID->"885c9701-c323-4339-a2e1-\
+813aca136f3f"],
+
+Cell["\<\
+We define x* as calculated in the script \[OpenCurlyDoubleQuote]ESS.nb\
+\[CloseCurlyDoubleQuote] and define Q2(m,u)=Q(m,u,x*(u,m))\
+\>", "Text",
+ CellChangeTimes->{{3.877171889395987*^9, 3.877171926650112*^9}, {
+  3.877174159360957*^9, 3.8771742010808067`*^9}, {3.877174506332485*^9, 
+  3.877174510073311*^9}},ExpressionUUID->"34fd346a-2cbc-4dea-b485-\
+fedbcd8829ee"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"xstar", "[", 
+   RowBox[{"u_", ",", "m_"}], "]"}], ":=", 
+  FractionBox[
+   RowBox[{
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{
+      RowBox[{"-", 
+       FractionBox[
+        SuperscriptBox["u", "2"], 
+        SuperscriptBox["sigmaH", "2"]]}], "-", 
+      FractionBox[
+       SuperscriptBox["u", "2"], 
+       SuperscriptBox["sigmaK", "2"]]}]], " ", "Kmax", " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"-", "m"}], "+", 
+      RowBox[{
+       SuperscriptBox["\[ExponentialE]", 
+        FractionBox[
+         SuperscriptBox["u", "2"], 
+         SuperscriptBox["sigmaH", "2"]]], " ", "r"}]}], ")"}]}], 
+   "r"]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Q2", "[", 
+   RowBox[{"u_", ",", "m_"}], "]"}], ":=", 
+  RowBox[{"Q", "[", 
+   RowBox[{"u", ",", "m", ",", 
+    RowBox[{"xstar", "[", 
+     RowBox[{"u", ",", "m"}], "]"}]}], "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"Simplify", "[", 
+  RowBox[{"Q2", "[", 
+   RowBox[{"u", ",", "m"}], "]"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.868266342916402*^9, 3.8682663774360847`*^9}},
+ CellLabel->"In[5]:=",ExpressionUUID->"da58a8eb-2555-4b9d-af6f-1eaebbe7d0fb"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"-", "c"}], " ", "m"}], "+", 
+  FractionBox[
+   RowBox[{
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{"-", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          FractionBox["2", 
+           SuperscriptBox["sigmaH", "2"]], "+", 
+          FractionBox["1", 
+           SuperscriptBox["sigmaK", "2"]]}], ")"}], " ", 
+        SuperscriptBox["u", "2"]}], ")"}]}]], " ", "Kmax", " ", "m", " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"-", "m"}], "+", 
+      RowBox[{
+       SuperscriptBox["\[ExponentialE]", 
+        FractionBox[
+         SuperscriptBox["u", "2"], 
+         SuperscriptBox["sigmaH", "2"]]], " ", "r"}]}], ")"}]}], 
+   "r"]}]], "Output",
+ CellChangeTimes->{
+  3.868266384894661*^9, {3.868333609143126*^9, 3.868333610807732*^9}, 
+   3.868339707149727*^9, 3.868339839742936*^9, 3.868363840513829*^9, 
+   3.868365126952045*^9},
+ CellLabel->"Out[7]=",ExpressionUUID->"d92f837f-f5cd-4171-b364-a2531707d6de"]
+}, Open  ]],
+
+Cell["\<\
+We define the evolutionary equilibria that we calculated in \
+\[OpenCurlyDoubleQuote]ESS.nb\[CloseCurlyDoubleQuote].\
+\>", "Text",
+ CellChangeTimes->{{3.877174531747088*^9, 
+  3.8771745753580627`*^9}},ExpressionUUID->"831da06c-be87-4a13-9ee1-\
+eedb711c0463"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ustar1", "[", "m_", "]"}], ":=", " ", 
+  RowBox[{"sigmaH", " ", 
+   SqrtBox[
+    RowBox[{"Log", "[", 
+     FractionBox[
+      RowBox[{
+       RowBox[{"m", " ", 
+        SuperscriptBox["sigmaH", "2"]}], "+", 
+       RowBox[{"m", " ", 
+        SuperscriptBox["sigmaK", "2"]}]}], 
+      RowBox[{"r", " ", 
+       SuperscriptBox["sigmaH", "2"]}]], "]"}]]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ustar2", "[", "m_", "]"}], ":=", " ", 
+  RowBox[{
+   RowBox[{"-", "sigmaH"}], " ", 
+   SqrtBox[
+    RowBox[{"Log", "[", 
+     FractionBox[
+      RowBox[{
+       RowBox[{"m", " ", 
+        SuperscriptBox["sigmaH", "2"]}], "+", 
+       RowBox[{"m", " ", 
+        SuperscriptBox["sigmaK", "2"]}]}], 
+      RowBox[{"r", " ", 
+       SuperscriptBox["sigmaH", "2"]}]], "]"}]]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ustar0", "[", "m_", "]"}], ":=", "0"}]}], "Input",
+ CellChangeTimes->{{3.868266395457294*^9, 3.868266470064035*^9}, {
+  3.8682666623488483`*^9, 3.86826666326583*^9}, {3.8682678868234787`*^9, 
+  3.868267898325313*^9}, {3.86833361728086*^9, 3.868333619250103*^9}, {
+  3.868339637676528*^9, 3.868339650321598*^9}, {3.86833971375*^9, 
+  3.868339713908276*^9}, {3.868363800749793*^9, 3.868363801397147*^9}},
+ CellLabel->"In[2]:=",ExpressionUUID->"f51d5a3c-16fa-40e3-9a6a-7910f78d3392"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Calculate best response by calculating first derivative", "Section",
+ CellChangeTimes->{{3.868363852780792*^9, 3.8683638946772127`*^9}, {
+  3.868364105519188*^9, 
+  3.868364112140315*^9}},ExpressionUUID->"14360327-af08-478a-9b50-\
+f95127a11df4"],
+
+Cell["\<\
+The best response m*(u) maximizes Q2 with respect to m. We define the \
+derivative\
+\>", "Text",
+ CellChangeTimes->{{3.8771749225287247`*^9, 3.877174935490568*^9}, {
+  3.8771750025865507`*^9, 
+  3.877175068693697*^9}},ExpressionUUID->"dcf2d06b-da7a-4816-b902-\
+78188af243fb"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"dQdm", "[", 
+   RowBox[{"u_", ",", "m_"}], "]"}], ":=", 
+  RowBox[{"D", "[", 
+   RowBox[{
+    RowBox[{"Q2", "[", 
+     RowBox[{"u", ",", "m"}], "]"}], ",", "m"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"Simplify", "[", 
+  RowBox[{"dQdm", "[", 
+   RowBox[{"u", ",", "m"}], "]"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.8683640132138777`*^9, 3.8683640682551937`*^9}},
+ CellLabel->"In[11]:=",ExpressionUUID->"ec4d0a55-045f-4553-8eb1-e6710825d3eb"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"-", "c"}], "+", 
+  FractionBox[
+   RowBox[{
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{"-", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          FractionBox["2", 
+           SuperscriptBox["sigmaH", "2"]], "+", 
+          FractionBox["1", 
+           SuperscriptBox["sigmaK", "2"]]}], ")"}], " ", 
+        SuperscriptBox["u", "2"]}], ")"}]}]], " ", "Kmax", " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "2"}], " ", "m"}], "+", 
+      RowBox[{
+       SuperscriptBox["\[ExponentialE]", 
+        FractionBox[
+         SuperscriptBox["u", "2"], 
+         SuperscriptBox["sigmaH", "2"]]], " ", "r"}]}], ")"}]}], 
+   "r"]}]], "Output",
+ CellChangeTimes->{3.8683640689138107`*^9, 3.868365132231367*^9},
+ CellLabel->"Out[12]=",ExpressionUUID->"53ffec33-ab5d-4128-927b-fcc3135a8c91"]
+}, Open  ]],
+
+Cell["\<\
+We set this to zero and solve for m. This gives us our best response m*(u).\
+\>", "Text",
+ CellChangeTimes->{{3.877175074444791*^9, 
+  3.877175116807972*^9}},ExpressionUUID->"5cf20b53-bd3b-4cde-92d6-\
+4d045c2bd598"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Solve", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"D", "[", 
+     RowBox[{
+      RowBox[{"Q2", "[", 
+       RowBox[{"u", ",", "m"}], "]"}], ",", "m"}], "]"}], "==", "0"}], ",", 
+   "m"}], "]"}]], "Input",
+ CellChangeTimes->{{3.868364079670804*^9, 3.868364089590543*^9}},
+ CellLabel->"In[13]:=",ExpressionUUID->"ef1e321a-1cc5-46e0-af87-7e75063b7213"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{"m", "\[Rule]", 
+    RowBox[{"-", 
+     FractionBox[
+      RowBox[{
+       SuperscriptBox["\[ExponentialE]", 
+        FractionBox[
+         SuperscriptBox["u", "2"], 
+         SuperscriptBox["sigmaH", "2"]]], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"c", " ", 
+          SuperscriptBox["\[ExponentialE]", 
+           RowBox[{
+            FractionBox[
+             SuperscriptBox["u", "2"], 
+             SuperscriptBox["sigmaH", "2"]], "+", 
+            FractionBox[
+             SuperscriptBox["u", "2"], 
+             SuperscriptBox["sigmaK", "2"]]}]]}], "-", "Kmax"}], ")"}], " ", 
+       "r"}], 
+      RowBox[{"2", " ", "Kmax"}]]}]}], "}"}], "}"}]], "Output",
+ CellChangeTimes->{3.8683640919616632`*^9, 3.8683651381551857`*^9},
+ CellLabel->"Out[13]=",ExpressionUUID->"944d3de4-bcb4-4e33-a193-848b71cbbe0a"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"mstar", "[", "u_", "]"}], ":=", 
+  RowBox[{"-", 
+   FractionBox[
+    RowBox[{
+     SuperscriptBox["\[ExponentialE]", 
+      FractionBox[
+       SuperscriptBox["u", "2"], 
+       SuperscriptBox["sigmaH", "2"]]], " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"c", " ", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{
+          FractionBox[
+           SuperscriptBox["u", "2"], 
+           SuperscriptBox["sigmaH", "2"]], "+", 
+          FractionBox[
+           SuperscriptBox["u", "2"], 
+           SuperscriptBox["sigmaK", "2"]]}]]}], "-", "Kmax"}], ")"}], " ", 
+     "r"}], 
+    RowBox[{"2", " ", "Kmax"}]]}]}]], "Input",
+ CellLabel->"In[1]:=",ExpressionUUID->"95a1f97c-1446-4e82-8af1-03aea2577cf1"],
+
+Cell["\<\
+Next, we calculate also the second derivative to make sure that m*(u) is \
+indeed a maximum of Q2, and not a mininum or saddle point.\
+\>", "Text",
+ CellChangeTimes->{{3.877175143757269*^9, 
+  3.877175169293908*^9}},ExpressionUUID->"7cce90fc-d677-4fbb-9744-\
+c9e74dd4f1af"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"dQ2dm2", "[", 
+   RowBox[{"u_", ",", "m_"}], "]"}], ":=", 
+  RowBox[{"D", "[", 
+   RowBox[{
+    RowBox[{"dQdm", "[", 
+     RowBox[{"u", ",", "m"}], "]"}], ",", "m"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"Simplify", "[", 
+  RowBox[{"dQ2dm2", "[", 
+   RowBox[{"u", ",", "m"}], "]"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.868364213904778*^9, 3.8683642279108458`*^9}, {
+  3.868364272527026*^9, 3.8683643102331038`*^9}},
+ CellLabel->"In[14]:=",ExpressionUUID->"1c7bf1f8-6017-490c-a60c-9d5547c9844f"],
+
+Cell[BoxData[
+ RowBox[{"-", 
+  FractionBox[
+   RowBox[{"2", " ", 
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{"-", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          FractionBox["2", 
+           SuperscriptBox["sigmaH", "2"]], "+", 
+          FractionBox["1", 
+           SuperscriptBox["sigmaK", "2"]]}], ")"}], " ", 
+        SuperscriptBox["u", "2"]}], ")"}]}]], " ", "Kmax"}], "r"]}]], "Output",\
+
+ CellChangeTimes->{3.868364310802258*^9, 3.8683651464123707`*^9},
+ CellLabel->"Out[15]=",ExpressionUUID->"85a57ce4-d8ca-4570-8f0e-31d287ad05e0"]
+}, Open  ]],
+
+Cell["\<\
+This expression is clearly negative such that m*(u) is a maximum as desired.\
+\>", "Text",
+ CellChangeTimes->{{3.8771751902431707`*^9, 
+  3.877175227575721*^9}},ExpressionUUID->"2e57c3f4-abc5-4f63-a98c-\
+49e3b67551e0"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Calculate the Nash strategy (intersections)", "Section",
+ CellChangeTimes->{{3.868578132367638*^9, 3.868578141203964*^9}, {
+  3.868582423130554*^9, 3.8685824278984118`*^9}, {3.877177558236343*^9, 
+  3.877177560022142*^9}},ExpressionUUID->"346ba12b-0276-4381-badd-\
+2d04ffd13686"],
+
+Cell["\<\
+The Nash strategy sits at the intersection of u*(m) and m*(u).
+We first solve the case for u*0=0.\
+\>", "Text",
+ CellChangeTimes->{{3.877175271553493*^9, 
+  3.877175345975808*^9}},ExpressionUUID->"f66ab3e2-05f3-4c82-85d9-\
+934947d60f54"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Solve", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"mstar", "[", 
+     RowBox[{"ustar0", "[", "m", "]"}], "]"}], "==", "m"}], ",", "m"}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.8685818263615103`*^9, 3.868581894244874*^9}},
+ CellLabel->"In[5]:=",ExpressionUUID->"f3dcb920-9d2f-4912-aa2c-68da88be4c7a"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{"m", "\[Rule]", 
+    RowBox[{"-", 
+     FractionBox[
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"c", "-", "Kmax"}], ")"}], " ", "r"}], 
+      RowBox[{"2", " ", "Kmax"}]]}]}], "}"}], "}"}]], "Output",
+ CellChangeTimes->{{3.868581871464267*^9, 3.8685818946073523`*^9}, 
+   3.868582348990386*^9, {3.877175238459127*^9, 3.8771752522283688`*^9}, 
+   3.877176420918857*^9},
+ CellLabel->"Out[5]=",ExpressionUUID->"c7e0dd4e-a369-4ac4-ac3e-9f1fb1a47ac7"]
+}, Open  ]],
+
+Cell["\<\
+Next, we solve for u*+.
+This can be done by taking the inverse of u*+ first and compute the Nash \
+strategy of the follower first.\
+\>", "Text",
+ CellChangeTimes->{{3.877175323721857*^9, 3.877175348274312*^9}, {
+  3.877177810207087*^9, 3.877177810382885*^9}, {3.877178199808264*^9, 
+  3.877178238369104*^9}},ExpressionUUID->"f9f24237-01fb-47b3-81d3-\
+01ecc4a63061"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Invustar1", "[", "u_", "]"}], ":=", 
+  RowBox[{"r", "*", 
+   RowBox[{
+    RowBox[{"sigmaH", "^", "2"}], "/", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"sigmaH", "^", "2"}], "=", 
+      RowBox[{"sigmaK", "^", "2"}]}], ")"}]}], 
+   RowBox[{"Exp", "[", 
+    RowBox[{
+     RowBox[{"u", "^", "2"}], "/", 
+     RowBox[{"sigmaH", "^", "2"}]}], "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.877178045235899*^9, 3.877178129115755*^9}},
+ CellLabel->"In[5]:=",ExpressionUUID->"79a96ce2-0df9-4dee-bf36-c44b1fd78638"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Solve", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"mstar", "[", "u", "]"}], "==", 
+    RowBox[{"Invustar1", "[", "u", "]"}]}], ",", "u"}], "]"}]], "Input",
+ CellChangeTimes->{{3.877178135479416*^9, 3.877178168045804*^9}},
+ CellLabel->"In[6]:=",ExpressionUUID->"9f52de71-fa99-4969-93a0-6fa43f33b4dd"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Set", "write", 
+   "\"Tag \\!\\(\\*RowBox[{\\\"Power\\\"}]\\) in \
+\\!\\(\\*SuperscriptBox[\\\"sigmaH\\\", \\\"2\\\"]\\) is Protected.\"", 2, 6, 
+   1, 24792255880168737566, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.877178170097028*^9},
+ CellLabel->
+  "During evaluation of \
+In[6]:=",ExpressionUUID->"356c5b5f-982f-43f6-9a19-a973f4b50c6c"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Solve", "ifun", 
+   "\"Inverse functions are being used by \
+\\!\\(\\*RowBox[{\\\"Solve\\\"}]\\), so some solutions may not be found; use \
+Reduce for complete solution information.\"", 2, 6, 2, 24792255880168737566, 
+   "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.877178170206141*^9},
+ CellLabel->
+  "During evaluation of \
+In[6]:=",ExpressionUUID->"c338baef-045f-44ca-84be-82410cad0b94"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"u", "\[Rule]", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"sigmaH", " ", "sigmaK", " ", 
+        SqrtBox[
+         RowBox[{"Log", "[", 
+          FractionBox[
+           RowBox[{"2", " ", "Kmax", " ", 
+            RowBox[{"(", 
+             RowBox[{
+              FractionBox["r", "2"], "-", 
+              FractionBox[
+               RowBox[{"r", " ", 
+                SuperscriptBox["sigmaH", "2"]}], 
+               SuperscriptBox["sigmaK", "2"]]}], ")"}]}], 
+           RowBox[{"c", " ", "r"}]], "]"}]]}], 
+       SqrtBox[
+        RowBox[{
+         SuperscriptBox["sigmaH", "2"], "+", 
+         SuperscriptBox["sigmaK", "2"]}]]]}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"u", "\[Rule]", 
+     FractionBox[
+      RowBox[{"sigmaH", " ", "sigmaK", " ", 
+       SqrtBox[
+        RowBox[{"Log", "[", 
+         FractionBox[
+          RowBox[{"2", " ", "Kmax", " ", 
+           RowBox[{"(", 
+            RowBox[{
+             FractionBox["r", "2"], "-", 
+             FractionBox[
+              RowBox[{"r", " ", 
+               SuperscriptBox["sigmaH", "2"]}], 
+              SuperscriptBox["sigmaK", "2"]]}], ")"}]}], 
+          RowBox[{"c", " ", "r"}]], "]"}]]}], 
+      SqrtBox[
+       RowBox[{
+        SuperscriptBox["sigmaH", "2"], "+", 
+        SuperscriptBox["sigmaK", "2"]}]]]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.877178170225102*^9},
+ CellLabel->"Out[6]=",ExpressionUUID->"9c373e6a-2876-41a9-98ef-3b62e35e8bb0"]
+}, Open  ]],
+
+Cell["\<\
+We plug this solution into m*(u), which gives us the Stackelberg strategy of \
+the leader.\
+\>", "Text",
+ CellChangeTimes->{{3.877178254645109*^9, 
+  3.8771782829981194`*^9}},ExpressionUUID->"d010c6be-40c3-437b-9791-\
+2b8494e935eb"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Simplify", "[", 
+  RowBox[{"mstar", "[", 
+   FractionBox[
+    RowBox[{"sigmaH", " ", "sigmaK", " ", 
+     SqrtBox[
+      RowBox[{"Log", "[", 
+       FractionBox[
+        RowBox[{"2", " ", "Kmax", " ", 
+         RowBox[{"(", 
+          RowBox[{
+           FractionBox["r", "2"], "-", 
+           FractionBox[
+            RowBox[{"r", " ", 
+             SuperscriptBox["sigmaH", "2"]}], 
+            SuperscriptBox["sigmaK", "2"]]}], ")"}]}], 
+        RowBox[{"c", " ", "r"}]], "]"}]]}], 
+    SqrtBox[
+     RowBox[{
+      SuperscriptBox["sigmaH", "2"], "+", 
+      SuperscriptBox["sigmaK", "2"]}]]], "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.8771782878311853`*^9, 3.877178305098057*^9}},
+ CellLabel->"In[7]:=",ExpressionUUID->"3244c6b5-fa5b-4531-ba41-04ffd20fdbd2"],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{"r", " ", 
+   SuperscriptBox["sigmaH", "2"], " ", 
+   SuperscriptBox[
+    RowBox[{"(", 
+     FractionBox[
+      RowBox[{"Kmax", " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", "2"}], " ", 
+          SuperscriptBox["sigmaH", "2"]}], "+", 
+         SuperscriptBox["sigmaK", "2"]}], ")"}]}], 
+      RowBox[{"c", " ", 
+       SuperscriptBox["sigmaK", "2"]}]], ")"}], 
+    FractionBox[
+     SuperscriptBox["sigmaK", "2"], 
+     RowBox[{
+      SuperscriptBox["sigmaH", "2"], "+", 
+      SuperscriptBox["sigmaK", "2"]}]]]}], 
+  SuperscriptBox["sigmaK", "2"]]], "Output",
+ CellChangeTimes->{3.877178305954069*^9},
+ CellLabel->"Out[7]=",ExpressionUUID->"a2cf9857-b310-4552-a76b-8621eff274de"]
+}, Open  ]],
+
+Cell["\<\
+This can be transformed into the solutions given in the supplementary \
+material. A similar calculation comes out if we use u*-\
+\>", "Text",
+ CellChangeTimes->{{3.8771783186182003`*^9, 
+  3.877178373726742*^9}},ExpressionUUID->"a68a8957-c0fa-483c-930a-\
+dba6148f4209"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1920, 1027},
+WindowMargins->{{1728, Automatic}, {Automatic, 24}},
+FrontEndVersion->"13.0 for Mac OS X ARM (64-bit) (December 2, 2021)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"75db8440-ca28-4184-869a-7aacba6e97bf"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 230, 4, 98, "Title",ExpressionUUID->"f296424e-6e58-4ae5-aba4-ef789bb30a77"],
+Cell[CellGroupData[{
+Cell[835, 30, 294, 4, 67, "Section",ExpressionUUID->"d14cc38c-f27c-4ce3-af13-93150dd67d49"],
+Cell[1132, 36, 1241, 39, 94, "Input",ExpressionUUID->"c95eae18-7000-4412-af23-dd9003a1d87f"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2410, 80, 429, 6, 67, "Section",ExpressionUUID->"885c9701-c323-4339-a2e1-813aca136f3f"],
+Cell[2842, 88, 377, 7, 35, "Text",ExpressionUUID->"34fd346a-2cbc-4dea-b485-fedbcd8829ee"],
+Cell[CellGroupData[{
+Cell[3244, 99, 1165, 35, 136, "Input",ExpressionUUID->"da58a8eb-2555-4b9d-af6f-1eaebbe7d0fb"],
+Cell[4412, 136, 1005, 30, 90, "Output",ExpressionUUID->"d92f837f-f5cd-4171-b364-a2531707d6de"]
+}, Open  ]],
+Cell[5432, 169, 268, 6, 35, "Text",ExpressionUUID->"831da06c-be87-4a13-9ee1-eedb711c0463"],
+Cell[5703, 177, 1337, 35, 148, "Input",ExpressionUUID->"f51d5a3c-16fa-40e3-9a6a-7910f78d3392"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7077, 217, 251, 4, 67, "Section",ExpressionUUID->"14360327-af08-478a-9b50-f95127a11df4"],
+Cell[7331, 223, 285, 7, 35, "Text",ExpressionUUID->"dcf2d06b-da7a-4816-b902-78188af243fb"],
+Cell[CellGroupData[{
+Cell[7641, 234, 488, 13, 52, "Input",ExpressionUUID->"ec4d0a55-045f-4553-8eb1-e6710825d3eb"],
+Cell[8132, 249, 879, 27, 90, "Output",ExpressionUUID->"53ffec33-ab5d-4128-927b-fcc3135a8c91"]
+}, Open  ]],
+Cell[9026, 279, 225, 5, 35, "Text",ExpressionUUID->"5cf20b53-bd3b-4cde-92d6-4d045c2bd598"],
+Cell[CellGroupData[{
+Cell[9276, 288, 372, 10, 30, "Input",ExpressionUUID->"ef1e321a-1cc5-46e0-af87-7e75063b7213"],
+Cell[9651, 300, 886, 25, 91, "Output",ExpressionUUID->"944d3de4-bcb4-4e33-a193-848b71cbbe0a"]
+}, Open  ]],
+Cell[10552, 328, 757, 23, 88, "Input",ExpressionUUID->"95a1f97c-1446-4e82-8af1-03aea2577cf1"],
+Cell[11312, 353, 283, 6, 35, "Text",ExpressionUUID->"7cce90fc-d677-4fbb-9744-c9e74dd4f1af"],
+Cell[CellGroupData[{
+Cell[11620, 363, 543, 14, 52, "Input",ExpressionUUID->"1c7bf1f8-6017-490c-a60c-9d5547c9844f"],
+Cell[12166, 379, 589, 17, 69, "Output",ExpressionUUID->"85a57ce4-d8ca-4570-8f0e-31d287ad05e0"]
+}, Open  ]],
+Cell[12770, 399, 228, 5, 35, "Text",ExpressionUUID->"2e57c3f4-abc5-4f63-a98c-49e3b67551e0"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13035, 409, 285, 4, 67, "Section",ExpressionUUID->"346ba12b-0276-4381-badd-2d04ffd13686"],
+Cell[13323, 415, 247, 6, 58, "Text",ExpressionUUID->"f66ab3e2-05f3-4c82-85d9-934947d60f54"],
+Cell[CellGroupData[{
+Cell[13595, 425, 325, 8, 30, "Input",ExpressionUUID->"f3dcb920-9d2f-4912-aa2c-68da88be4c7a"],
+Cell[13923, 435, 510, 13, 50, "Output",ExpressionUUID->"c7e0dd4e-a369-4ac4-ac3e-9f1fb1a47ac7"]
+}, Open  ]],
+Cell[14448, 451, 375, 8, 58, "Text",ExpressionUUID->"f9f24237-01fb-47b3-81d3-01ecc4a63061"],
+Cell[14826, 461, 541, 15, 30, "Input",ExpressionUUID->"79a96ce2-0df9-4dee-bf36-c44b1fd78638"],
+Cell[CellGroupData[{
+Cell[15392, 480, 322, 7, 30, "Input",ExpressionUUID->"9f52de71-fa99-4969-93a0-6fa43f33b4dd"],
+Cell[15717, 489, 402, 10, 28, "Message",ExpressionUUID->"356c5b5f-982f-43f6-9a19-a973f4b50c6c"],
+Cell[16122, 501, 449, 11, 28, "Message",ExpressionUUID->"c338baef-045f-44ca-84be-82410cad0b94"],
+Cell[16574, 514, 1518, 45, 90, "Output",ExpressionUUID->"9c373e6a-2876-41a9-98ef-3b62e35e8bb0"]
+}, Open  ]],
+Cell[18107, 562, 242, 6, 35, "Text",ExpressionUUID->"d010c6be-40c3-437b-9791-2b8494e935eb"],
+Cell[CellGroupData[{
+Cell[18374, 572, 791, 22, 93, "Input",ExpressionUUID->"3244c6b5-fa5b-4531-ba41-04ffd20fdbd2"],
+Cell[19168, 596, 758, 23, 88, "Output",ExpressionUUID->"a2cf9857-b310-4552-a76b-8621eff274de"]
+}, Open  ]],
+Cell[19941, 622, 279, 6, 35, "Text",ExpressionUUID->"a68a8957-c0fa-483c-930a-dba6148f4209"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+

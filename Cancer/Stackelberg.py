@@ -37,8 +37,8 @@ xS = (K_max/(r_max*(1-aSR*aRS)))*(aSR*m*np.exp(g*uR)/(k+b*uR) - m/k + aSR*d*np.e
 xS[xS<0] = 0
 # Quality of life function defined over stabilization region
 Q = 1 - a1*(((xR+xS)/K_max)**2) - a2*(uR**2) - a3*(m**2)
-Q[np.add(xS,xR)>T] = 0
+Q[np.add(xS,xR)>T] = float('NaN')
 
 # Stackelberg strategy (mS)
-m_star = m[np.argmax(Q)]
+m_star = m[np.nanargmax(Q)]
 print(m_star)

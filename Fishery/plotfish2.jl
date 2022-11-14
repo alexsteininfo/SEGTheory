@@ -1,5 +1,5 @@
-# #title: a stochastic gfunction approach
-#author: alexander stein
+# title: Stackelberg Evolutionary Game Theory - Fish application 
+# author: alexander stein
 
 #################
 ### libraries ###
@@ -17,13 +17,10 @@ Kmax = 10000    # for the g-function approach
 r = 1
 sigmaK = 0.5
 sigmaH = 0.5
-sigmaA = 0.5
-beta = 1
 
 c = 500.0         # for the manager
 
 # Define helping function
-alpha(v,u) = 1 + exp(-(v-u+beta)^2 / sigmaA^2) - exp(- beta^2/sigmaA^2)
 K(v) = Kmax*exp(-v^2/sigmaK^2)
 H(v,m) = m*exp(-v^2/sigmaH^2)
 

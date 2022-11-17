@@ -68,7 +68,7 @@ function plot_bifurcation(mc)
     scatter!([0.475],[0.0],label="",marker = (:circle, 8, 0.6, :blue), text = "Stackelberg                 \n Nash          \n \n \n", mode="markers+text", textposition="top center")
 
     plot!(xlabel="Harvesting effort (m)")
-    plot!(ylabel="Fishability (u)")
+    plot!(ylabel="Catchability (u)")
     plot!(xtickfontsize=14,ytickfontsize=14,xguidefontsize=16,yguidefontsize=16)
     plot!(legend_position=(0.15,0.85))
 
@@ -108,7 +108,7 @@ function plot_Gfunction()
     scatter!([-0.33],[0.0],label="",marker = (:circle, 8, 0.6, :red), text = "\n u₋*", mode="markers+text", textposition="top center")
 
 
-    plot!(xlabel="Fishability (v)")
+    plot!(xlabel="Catchbility (v)")
     plot!(ylabel="Growth rate (G)")
     plot!(xtickfontsize=14,ytickfontsize=14,xguidefontsize=16,yguidefontsize=16)
     #plot!(legend_position=(0.7,0.7))
@@ -133,4 +133,4 @@ annotate!((-0.30, 0.75,text("B", :left, 22)))
 #annotate!((0.25, 0.10 ,text("Stack/Nash", :left, 10)))
 
 plot!(legendfont=font(12))
-savefig(plt, "fish2")
+savefig(plt, "fish2.pdf")
